@@ -3,7 +3,13 @@ sig Model{
 }
 
 sig Signature{
-	name: one Name
+	name: one Name,
+	fields: some Field
+}
+
+sig Field{
+	name:one Name,
+	next: lone Field
 }
 
 sig Name{}
@@ -16,10 +22,11 @@ sig Instance{
 	atoms: set Atom
 }
 
-run solve for 3 but 1 Model, 1 Instance
+run valid for 3 but 1 Model, 1 Instance
 
 pred valid[m:Model]{
 	all n:Name | lone name.n & m.sigs
+	--no 
 }
 
 pred solve [m:Model, i:Instance]{
