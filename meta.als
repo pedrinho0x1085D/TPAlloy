@@ -4,16 +4,25 @@ sig Model {
 }
 
 sig Field{
-	name:one Name,
-	next: lone Field
+	name: one Name,
+	types: one Type
 }
+
+sig Type{
+	name: one Name,
+	next: lone Type
+}
+
 sig Signature {
 	name : one Name,
 	fields: some Field
 }
+-- Atenção que também é necessário assegurar que os tipos são acíclicos.
 
 pred valid[m : Model] {
 	all n : Name | lone name.n & m.sigs
+	all n: Type.name| n in Signature.name
+	
 }
 
 run valid for 3 but 1 Model, 0 Instance
