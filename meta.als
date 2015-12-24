@@ -22,7 +22,7 @@ sig Signature {
 pred valid[m : Model] {
 	all n : Name | lone name.n & m.sigs
 	all n: Type.name| n in Signature.name
-	
+	no t1:Type,t2:t1.next | t1.name=t2.name
 }
 
 run valid for 3 but 1 Model, 0 Instance
