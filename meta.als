@@ -50,6 +50,7 @@ pred valid[m : Model] {
 	all t:Type | t not in t.~next
 	all t1:Type, t2:Type | t1!=t2 implies t1.name!=t2.name
 	all s:Signature | s not in s.~extend
+	no disj s1:Signature, s2:Signature | s1.extend =s2 and s2.extend = s1
 }
 
 run valid for 3 but 1 Model, 0 Instance
