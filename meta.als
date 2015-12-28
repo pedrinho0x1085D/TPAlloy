@@ -68,7 +68,7 @@ sig Instance {
 
 pred solve [m : Model, i : Instance] {
 	i.atoms.name in m.sigs.name
-	Abstract.name not in i.atoms.name
+	Abstract.name not in i.atoms.name	
 }
 
 run solve for 3 but 1 Model, 1 Instance
