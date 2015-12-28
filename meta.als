@@ -19,17 +19,18 @@ sig Signature {
 }
 
 /**
- Assegurar que os tipos são acíclicos.
-Assegurar que os nomes são únicos
-Assegurar que os nomes existem no conjunto de nomes de Signature
-Assegurar que os nomes de campos de assinaturas são únicos
+
+1)Assegurar que os nomes são únicos
+2)Assegurar que os nomes existem no conjunto de nomes de Signature
+3)Assegurar que os nomes de campos de assinaturas são únicos
+4) Assegurar que os tipos são acíclicos.
 */
 
 pred valid[m : Model] {
 	all n : Name | lone name.n & m.sigs
-	all n: Type.name| n in Signature.name
-	no disj n1,n2:Signature.fields.name | n1=n2
-	no t1:Type,t2:t1.next | t1.name=t2.name
+	all n: Field.types.name| n in Signature.name
+	all f:Signature.fields | f not in Signature.fields-f
+	all t:Type | t not in t.~next
 }
 
 run valid for 3 but 1 Model, 0 Instance
