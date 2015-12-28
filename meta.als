@@ -68,6 +68,7 @@ sig Instance {
 }
 
 pred solve [m : Model, i : Instance] {
+	valid[m]
 	i.atoms.name in m.sigs.name
 	Abstract.name not in i.atoms.name	
 }
