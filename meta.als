@@ -46,6 +46,8 @@ sig Abstract extends Signature{}
 pred valid[m : Model] {
 	all n : Name | lone name.n & m.sigs
 	all n: Field.types.name| n in Signature.name
+--	 Esta não me parece que está bem (nomes únicos dos fields dentro de uma signature):
+-->        all f:Signature.fields.name | f not in Signature.fields.name-f
 	all t:Type | t not in t.^next
 	all t1:Type, t2:Type | t1!=t2 implies t1.name!=t2.name
 	all s:Signature | s not in s.^extend
@@ -56,7 +58,11 @@ run valid for 3 but 1 Model, 0 Instance
 run {some m : Model | not valid[m]} for 3 but 1 Model, 0 Instance
 
 sig Name {}
-
+--a instanciação de um field é uma relação, ou seja um conjunto de tuplos, onde cada tuplo é uma 
+--sequência de átomos. O mesmo átomo pode aparecer em duas posições diferentes no mesmo tuplo,
+-- ou seja pode estar “relacionado” com átomos diferentes dependendo da sua posição em cada tuplo. 
+--Penso que o caminho mais simples a seguir para representar os tuplos é usar algo parecido com o que
+-- fez para os tipos dos fields.
 sig Atom {
 	name : one Name
 }
