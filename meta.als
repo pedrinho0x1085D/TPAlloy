@@ -46,8 +46,7 @@ sig Abstract extends Signature{}
 pred valid[m : Model] {
 	all n : Name | lone name.n & m.sigs
 	all n: Field.types.name| n in Signature.name
---	 Esta não me parece que está bem (nomes únicos dos fields dentro de uma signature):
--->        all f:Signature.fields.name | f not in Signature.fields.name-f
+	all f:Field | lone fields.f.name & m.sigs.fields.name
 	all t:Type | t not in t.^next
 	all t1:Type, t2:Type | t1!=t2 implies t1.name!=t2.name
 	all s:Signature | s not in s.^extend
