@@ -63,7 +63,20 @@ sig Name {}
 --Penso que o caminho mais simples a seguir para representar os tuplos é usar algo parecido com o que
 -- fez para os tipos dos fields.
 sig Atom {
-	name : one Name
+	name : one Name,
+	fields : some Relation
+}
+sig Relation{
+	tuplos: set Tuple
+}
+
+sig Tuple{
+	seqAtom : one SeqAtom
+}
+
+sig SeqAtom{
+	atom: one Atom,
+	next: lone SetAtom
 }
 
 sig Instance {
