@@ -80,12 +80,31 @@ sig Instance {
 }
 
 pred solve [m : Model, i : Instance] {
+-- Apenas faz solve se o modelo for valid
 	valid[m]
 -- Povoar nomes das signatures, Abstract não entra!
 	i.atoms.name in m.sigs.name-Abstract.name
 -- Povoar as relations
 	i.relations.tuplos.seqAtom.atom in i.atoms 
-	
+	let return = SeqAtom{
+	all sign:m.sigs| typeToSeqAtom[sign,sign.fields.types,return] and return in i.relations.tuplos.seqAtom
+	}
+}
+
+pred typeToSeqAtom [sign: Signature, type: Type, return:SeqAtom]{
+	let at= Atom{
+	at.name = sign.name
+	return.atom=at
+	typeToSeqAtomAux[type,return.next]
+	}
+}
+
+pred typeToSeqAtomAux [type:Type,return:SeqAtom]{
+	let at= Atom{
+	at.name=type.name
+	return.atom=at
+	typeToSeqAtomAux[type.next,return.next]
+	}
 }
 
 run solve for 3 but 1 Model, 1 Instance
