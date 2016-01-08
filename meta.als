@@ -57,14 +57,9 @@ run valid for 3 but 1 Model, 0 Instance
 run {some m : Model | not valid[m]} for 3 but 1 Model, 0 Instance
 
 sig Name {}
---a instanciação de um field é uma relação, ou seja um conjunto de tuplos, onde cada tuplo é uma 
---sequência de átomos. O mesmo átomo pode aparecer em duas posições diferentes no mesmo tuplo,
--- ou seja pode estar “relacionado” com átomos diferentes dependendo da sua posição em cada tuplo. 
---Penso que o caminho mais simples a seguir para representar os tuplos é usar algo parecido com o que
--- fez para os tipos dos fields.
 sig Atom {
 	name : one Name,
-	fields : some Relation
+
 }
 sig Relation{
 	tuplos: set Tuple
@@ -80,7 +75,8 @@ sig SeqAtom{
 }
 
 sig Instance {
-	atoms : set Atom
+	atoms : set Atom,
+	relations : some Relation
 }
 
 pred solve [m : Model, i : Instance] {
