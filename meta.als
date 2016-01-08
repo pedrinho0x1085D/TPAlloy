@@ -71,7 +71,7 @@ sig Tuple{
 
 sig SeqAtom{
 	atom: one Atom,
-	next: lone SetAtom
+	next: lone SeqAtom
 }
 
 sig Instance {
@@ -81,8 +81,11 @@ sig Instance {
 
 pred solve [m : Model, i : Instance] {
 	valid[m]
-	i.atoms.name in m.sigs.name
-	Abstract.name not in i.atoms.name	
+-- Povoar nomes das signatures, Abstract não entra!
+	i.atoms.name in m.sigs.name-Abstract.name
+-- Povoar as relations
+	i.relations.tuplos.seqAtom.atom in i.atoms 
+	
 }
 
 run solve for 3 but 1 Model, 1 Instance
