@@ -91,9 +91,8 @@ pred solve [m : Model, i : Instance] {
 
 pred compat[seqA:SeqAtom,type:Type]{
 	#(seqA.atom + seqA.^next)=#(type+ type.^next)
-	let at=(seqA.atom + seqA.^next), ty=(type + type.^next) {
-		#(at.~(^next)) = #(ty.~(^next))
-	}
+	all at:(seqA.atom + seqA.^next), ty:(type + type.^next) |#(at.~(^next)) = #(ty.~(^next))
+	
 }
 
 
