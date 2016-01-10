@@ -1,22 +1,28 @@
-
+/**
+Modelo tem um conjunto de Signatures
+*/
 sig Model {
 	sigs : set Signature
 }
-
+/**
+Campo de uma Signature tem um Nome, Tipo e Multiplicidade
+*/
 sig Field{
 	name: one Name,
 	types: one Type,
 	mult: one Mult
 }
 /**
-	Multiplicidades.
+Multiplicidades. (0..1),(1),*,+
 */ 
 abstract sig Mult{}
 one sig Lone extends Mult {}
 one sig One extends Mult {}
 one sig Some extends Mult {}
 one sig Set extends Mult {}
-
+/**
+Tipo tem um nome e o próximo Tipo, se existir
+*/
 sig Type{
 	name: one Name,
 	next: lone Type
@@ -55,25 +61,40 @@ pred valid[m : Model] {
 run valid for 3 but 1 Model, 0 Instance
 
 run {some m : Model | not valid[m]} for 3 but 1 Model, 0 Instance
-
+/**
+Nome
+*/
 sig Name {}
+
+/**
+Átomos
+*/
 sig Atom {
 	name : one Name,
 
 }
+/**
+Relações
+*/
 sig Relation{
 	tuplos: set Tuple
 }
-
+/**
+Tuplo
+*/
 sig Tuple{
 	seqAtom : one SeqAtom
 }
-
+/**
+Sequência de átomos
+*/
 sig SeqAtom{
 	atom: one Atom,
 	next: lone SeqAtom
 }
-
+/**
+Instância contém o conjunto de átomos e os relacionamentos entre os Átomos (Fields)
+*/
 sig Instance {
 	atoms : set Atom,
 	relations : some Relation
@@ -88,7 +109,9 @@ pred solve [m : Model, i : Instance] {
 	i.relations.tuplos.seqAtom.atom in i.atoms
 	all relat:i.relations,fie:m.sigs.fields | compat[relat.tuplos.seqAtom,fie.types]
 }
-
+/**
+Verifica se uma Sequência de Átomos é compatível com um Tipo
+*/
 pred compat[seqA:SeqAtom,type:Type]{
 	#(seqA.atom + seqA.^next)=#(type+ type.^next)
 	all at:(seqA.atom + seqA.^next), ty:(type + type.^next) |#(at.~(^next)) = #(ty.~(^next)) implies at.name = ty.name
