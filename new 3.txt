@@ -1,3 +1,0 @@
-SupportMapFragment
-Training
-developer.android.com
